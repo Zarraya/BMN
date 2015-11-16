@@ -47,6 +47,8 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashActivity.cs" />
+    <Compile Include="ConnectActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -61,6 +63,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\BackgroundImage.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\PaperElement.png" />
+    <AndroidResource Include="Resources\layout\Splash.axml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\TitleScreen.png" />
+    <AndroidResource Include="Resources\layout\ConnectView.axml" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

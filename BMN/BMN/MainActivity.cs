@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 
 using Android.App;
 using Android.Content;
@@ -9,24 +10,21 @@ using Android.OS;
 
 namespace BMN
 {
-	[Activity (Label = "BMN", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Theme = "@style/Theme.Main", Label = "BMN", MainLauncher = false, Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
-			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
-			button.Click += delegate {
-				button.Text = string.Format ("{0} clicks!", count++);
+			Button butt = FindViewById<Button>(Resource.Id.MainButton);
+
+			butt.Click += (object sender, EventArgs e) => {
+
+				StartActivity(typeof(BMN.ConnectActivity));
 			};
 		}
 	}
