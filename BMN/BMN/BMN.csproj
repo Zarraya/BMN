@@ -69,6 +69,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\TitleScreen.png" />
     <AndroidResource Include="Resources\layout\ConnectView.axml" />
     <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\layout\BluetoothTextView.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

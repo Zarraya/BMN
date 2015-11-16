@@ -6,20 +6,38 @@
     android:background="@drawable/backgroundimage"
     android:minWidth="25px"
     android:minHeight="25px">
+    <TextView
+        android:text="Known and Paired Devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:textStyle="bold"
+        android:textColor="#ffffffff" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="318.0dp"
-        android:id="@+id/PairedListView" />
+        android:id="@+id/PairedListView"
+        android:divider="#ffffff" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title" />
+        android:id="@+id/title"
+        android:text="Unkown Devices"
+        android:textColor="#ffffffff"
+        android:textStyle="bold" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/NewListView" />
+        android:layout_height="202.3dp"
+        android:id="@+id/NewListView"
+        android:layout_marginBottom="22.8dp" />
+    <Button
+        android:text="Done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DoneButton"
+        android:background="@drawable/paperelement" />
 </LinearLayout>

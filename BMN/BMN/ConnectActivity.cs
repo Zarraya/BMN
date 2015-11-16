@@ -37,12 +37,43 @@ namespace BMN
 			if (!adapter.IsEnabled) {
 
 				adapter.Enable ();
+
+				Android.App.AlertDialog.Builder builder = new AlertDialog.Builder (this, 5);
+				AlertDialog alert = builder.Create ();
+				alert.SetTitle ("Activating Bluetooth");
+				alert.SetMessage ("Turning Bluetooth On.\n10s");
+	
+
+				alert.Show ();
+
+				System.Timers.Timer _timer = new System.Timers.Timer();
+				//Trigger event every second
+				_timer.Interval = 1000;
+				int _countSeconds = 10;
+				_timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
+
+					_countSeconds--;
+
+					alert.SetMessage("Turning Bluetooth On.\n"+_countSeconds);
+					alert.Show();
+
+					if(_countSeconds == 0){
+						_timer.Stop();
+						alert.Dismiss();
+					}
+				};
+				//count down 5 seconds
+
+
+				_timer.Enabled = true;
+
+
 			}
 
 			DoDiscovery ();
 
-			this.pairedDevices = new ArrayAdapter<string>(this, Resource.Layout.ConnectView);
-			newDevices = new ArrayAdapter<string>(this, Resource.Layout.ConnectView);
+			this.pairedDevices = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
+			newDevices = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
 
 			var pairedListView = FindViewById<ListView> (Resource.Id.PairedListView);
 			pairedListView.Adapter = this.pairedDevices;
@@ -52,6 +83,12 @@ namespace BMN
 			newListView.Adapter = newDevices;
 			newListView.ItemClick += DeviceListClick;
 
+			var doneButton = FindViewById<Button> (Resource.Id.DoneButton);
+			doneButton.Click += (object sender, EventArgs e) => {
+
+				Finish();
+			};
+
 			receiver = new Receiver (this);
 			var filter = new IntentFilter (BluetoothDevice.ActionFound);
 			RegisterReceiver (receiver, filter);
@@ -60,15 +97,6 @@ namespace BMN
 			filter = new IntentFilter (BluetoothAdapter.ActionDiscoveryFinished);
 			RegisterReceiver (receiver, filter);
 
-
-
-			if (adapter == null) {
-
-				Console.WriteLine ("There is no adapter.");
-				Finish ();
-			}
-
-			Console.WriteLine (adapter);
 
 			var pairedDevices = adapter.BondedDevices;
 
@@ -117,12 +145,27 @@ namespace BMN
 			var info = (e.View as TextView).Text.ToString ();
 			var address = info.Substring (info.Length - 17);
 
+			Android.App.AlertDialog.Builder builder = new AlertDialog.Builder (this, 5);
+			AlertDialog alert = builder.Create ();
+			alert.SetTitle ("Pair?");
+			alert.SetMessage ("Do you want to pair the selected device?\n" + info.Substring(0,info.Length-17));
+
+			alert.SetButton ("Yes", (s, ev) => {
+
+
+			});
+			alert.SetButton2 ("No", (s, ev) => {
+
+
+			});	
+
+			alert.Show ();
+
 			Intent intent = new Intent ();
 			intent.PutExtra (EXTRA_DEVICE_ADDRESS, address);
 
 			// Set result and finish this Activity
 			SetResult (Result.Ok, intent);
-			Finish ();
 		}
 	
 
@@ -156,8 +199,8 @@ namespace BMN
 					newDevices.Add (noDevices);
 				}
 			}
-		} 
+		}
 	}
+
 	}
 }
-
