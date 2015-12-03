@@ -4,7 +4,7 @@
     p1:layout_height="match_parent"
     p1:id="@+id/TextView"
     p1:background="@drawable/paperelement"
-    p1:maxHeight="70dp"
+    p1:maxHeight="10dp"
     p1:gravity="center"
     p1:textColor="#ff414141"
-    p1:minHeight="70dp" />
+    p1:minHeight="10dp" />

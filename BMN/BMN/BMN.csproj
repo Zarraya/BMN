@@ -49,6 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="ConnectActivity.cs" />
+    <Compile Include="MessageController.cs" />
+    <Compile Include="EmptyClass.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,6 +73,7 @@
     <AndroidResource Include="Resources\layout\ConnectView.axml" />
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\layout\BluetoothTextView.axml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\BMN_Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
 </Project>

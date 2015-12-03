@@ -24,7 +24,7 @@ namespace SplashScreen
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
-			Thread.Sleep(3000); // Simulate a long loading process on app startup.
+			Thread.Sleep(500); // Simulate a long loading process on app startup.
 			StartActivity(typeof(BMN.MainActivity));
 		}
 	}

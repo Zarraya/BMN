@@ -22,15 +22,13 @@ namespace BMN
 		private const string TAG = "DeviceListActivity";
 
 		BluetoothAdapter adapter;
-		protected ArrayAdapter<string> pairedDevices;
-		protected static ArrayAdapter<string> newDevices;
+		protected ArrayAdapter<string> pairedDevicesAA;
+		protected static ArrayAdapter<string> newDevicesAA;
 		protected Receiver receiver;
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-
-			SetContentView (Resource.Layout.ConnectView);
 
 			adapter = BluetoothAdapter.DefaultAdapter;
 
@@ -38,49 +36,52 @@ namespace BMN
 
 				adapter.Enable ();
 
-				Android.App.AlertDialog.Builder builder = new AlertDialog.Builder (this, 5);
-				AlertDialog alert = builder.Create ();
-				alert.SetTitle ("Activating Bluetooth");
-				alert.SetMessage ("Turning Bluetooth On.\n10s");
-	
+				ProgressDialog dialog = new ProgressDialog(this, 5);
+				dialog.SetTitle ("Activating Bluetooth");
+				dialog.SetProgressStyle (ProgressDialogStyle.Horizontal);
+				dialog.SetCancelable (false);
+				dialog.SetCanceledOnTouchOutside (false);
+				dialog.SetProgressNumberFormat (null);
+				dialog.SetProgressPercentFormat (null);
+				dialog.Max = 1000;
+				dialog.Progress = 0;
 
-				alert.Show ();
+				dialog.Show();
 
 				System.Timers.Timer _timer = new System.Timers.Timer();
 				//Trigger event every second
-				_timer.Interval = 1000;
-				int _countSeconds = 10;
+				_timer.Interval = 10;
+				int _countSeconds = 1000;
 				_timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
 
 					_countSeconds--;
 
-					alert.SetMessage("Turning Bluetooth On.\n"+_countSeconds);
-					alert.Show();
+					dialog.Progress = 1000 - _countSeconds;
 
 					if(_countSeconds == 0){
 						_timer.Stop();
-						alert.Dismiss();
+						dialog.Dismiss();
+						DoDiscovery();
 					}
 				};
-				//count down 5 seconds
-
 
 				_timer.Enabled = true;
 
-
 			}
 
-			DoDiscovery ();
+			SetContentView (Resource.Layout.ConnectView);
 
-			this.pairedDevices = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
-			newDevices = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
+			//DoDiscovery ();
+
+			this.pairedDevicesAA = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
+			newDevicesAA = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
 
 			var pairedListView = FindViewById<ListView> (Resource.Id.PairedListView);
-			pairedListView.Adapter = this.pairedDevices;
+			pairedListView.Adapter = this.pairedDevicesAA;
 			pairedListView.ItemClick += DeviceListClick;
 
 			var newListView = FindViewById<ListView> (Resource.Id.NewListView);
-			newListView.Adapter = newDevices;
+			newListView.Adapter = newDevicesAA;
 			newListView.ItemClick += DeviceListClick;
 
 			var doneButton = FindViewById<Button> (Resource.Id.DoneButton);
@@ -104,11 +105,11 @@ namespace BMN
 			if (pairedDevices.Count > 0) {
 				FindViewById<View> (Resource.Id.title).Visibility = ViewStates.Visible;
 				foreach (var device in pairedDevices) {
-					this.pairedDevices.Add (device.Name + "\n" + device.Address);
+					this.pairedDevicesAA.Add (device.Name + "\n" + device.Address);
 				}
 			} else {
 				String noDevices = Resources.GetText (Resource.String.none_paired);
-				this.pairedDevices.Add (noDevices);	
+				this.pairedDevicesAA.Add (noDevices);	
 			}
 		}
 
@@ -119,8 +120,8 @@ namespace BMN
 			Log.Debug (TAG, "doDiscovery()");
 
 			// Indicate scanning in the title
-			SetProgressBarIndeterminateVisibility (true);
-			SetTitle (Resource.String.scanning);
+			//SetProgressBarIndeterminateVisibility (true);
+			//SetTitle (Resource.String.scanning);
 
 			// Turn on sub-title for new devices
 			FindViewById<View> (Resource.Id.title).Visibility = ViewStates.Visible;	
@@ -188,15 +189,15 @@ namespace BMN
 				BluetoothDevice device = (BluetoothDevice)intent.GetParcelableExtra (BluetoothDevice.ExtraDevice);
 				// If it's already paired, skip it, because it's been listed already
 				if (device.BondState != Bond.Bonded) {
-					newDevices.Add (device.Name + "\n" + device.Address);
+					newDevicesAA.Add (device.Name + "\n" + device.Address);
 				}
 				// When discovery is finished, change the Activity title
 			} else if (action == BluetoothAdapter.ActionDiscoveryFinished) {
 				_chat.SetProgressBarIndeterminateVisibility (false);
 				_chat.SetTitle (Resource.String.select_device);
-				if (newDevices.Count == 0) {
+				if (newDevicesAA.Count == 0) {
 					var noDevices = _chat.Resources.GetText (Resource.String.none_found).ToString ();
-					newDevices.Add (noDevices);
+					newDevicesAA.Add (noDevices);
 				}
 			}
 		}

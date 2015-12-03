@@ -10,7 +10,7 @@ using Android.OS;
 
 namespace BMN
 {
-	[Activity (Theme = "@style/Theme.Main", Label = "BMN", MainLauncher = false, Icon = "@drawable/icon")]
+	[Activity (Theme = "@style/Theme.Main", Label = "BMN", MainLauncher = false)]
 	public class MainActivity : Activity
 	{
 
