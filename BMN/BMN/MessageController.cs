@@ -277,7 +277,7 @@ namespace BMN
 
 					if (socket != null) {
 
-						lock()
+
 					}
 				}
 			}

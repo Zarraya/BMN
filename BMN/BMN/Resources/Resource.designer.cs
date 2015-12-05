@@ -54,10 +54,13 @@ namespace BMN
 			public const int Icon = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int PaperElement = 2130837507;
+			public const int monoandroidsplash = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int TitleScreen = 2130837508;
+			public const int PaperElement = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int TitleScreen = 2130837509;
 			
 			static Drawable()
 			{
@@ -72,11 +75,11 @@ namespace BMN
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060005
-			public const int DoneButton = 2131099653;
-			
 			// aapt resource value: 0x7f060007
-			public const int MainButton = 2131099655;
+			public const int DoneButton = 2131099655;
+			
+			// aapt resource value: 0x7f060009
+			public const int MainButton = 2131099657;
 			
 			// aapt resource value: 0x7f060004
 			public const int NewListView = 2131099652;
@@ -87,8 +90,14 @@ namespace BMN
 			// aapt resource value: 0x7f060000
 			public const int TextView = 2131099648;
 			
+			// aapt resource value: 0x7f060005
+			public const int linearLayout1 = 2131099653;
+			
 			// aapt resource value: 0x7f060006
-			public const int relativeLayout1 = 2131099654;
+			public const int refresh = 2131099654;
+			
+			// aapt resource value: 0x7f060008
+			public const int relativeLayout1 = 2131099656;
 			
 			// aapt resource value: 0x7f060001
 			public const int textView1 = 2131099649;
@@ -173,6 +182,9 @@ namespace BMN
 		
 		public partial class Style
 		{
+			
+			// aapt resource value: 0x7f050002
+			public const int Mono_Android_Theme_Splash = 2131034114;
 			
 			// aapt resource value: 0x7f050001
 			public const int Theme_Main = 2131034113;

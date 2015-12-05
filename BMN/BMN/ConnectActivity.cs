@@ -18,9 +18,12 @@ namespace BMN
 	[Activity (Theme = "@style/Theme.Main",Label = "ConnectActivity")]			
 	public class ConnectActivity : Activity
 	{
+		
 		public const string EXTRA_DEVICE_ADDRESS = "device_address";
 		private const string TAG = "DeviceListActivity";
+		private const int REQUEST_ENABLE_BT = 1;
 
+		//declare variables to hold the adapter, the paired devices and new devices
 		BluetoothAdapter adapter;
 		protected ArrayAdapter<string> pairedDevicesAA;
 		protected static ArrayAdapter<string> newDevicesAA;
@@ -34,44 +37,19 @@ namespace BMN
 
 			if (!adapter.IsEnabled) {
 
-				adapter.Enable ();
 
-				ProgressDialog dialog = new ProgressDialog(this, 5);
-				dialog.SetTitle ("Activating Bluetooth");
-				dialog.SetProgressStyle (ProgressDialogStyle.Horizontal);
-				dialog.SetCancelable (false);
-				dialog.SetCanceledOnTouchOutside (false);
-				dialog.SetProgressNumberFormat (null);
-				dialog.SetProgressPercentFormat (null);
-				dialog.Max = 1000;
-				dialog.Progress = 0;
-
-				dialog.Show();
-
-				System.Timers.Timer _timer = new System.Timers.Timer();
-				//Trigger event every second
-				_timer.Interval = 10;
-				int _countSeconds = 1000;
-				_timer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-
-					_countSeconds--;
-
-					dialog.Progress = 1000 - _countSeconds;
-
-					if(_countSeconds == 0){
-						_timer.Stop();
-						dialog.Dismiss();
-						DoDiscovery();
-					}
-				};
-
-				_timer.Enabled = true;
+				Intent enableIntent = new Intent (BluetoothAdapter.ActionRequestEnable);
+				StartActivityForResult (enableIntent, REQUEST_ENABLE_BT);
 
 			}
 
 			SetContentView (Resource.Layout.ConnectView);
 
-			//DoDiscovery ();
+			Intent discoverIntent = new Intent (BluetoothAdapter.ActionRequestDiscoverable);
+			discoverIntent.PutExtra (BluetoothAdapter.ExtraDiscoverableDuration, 0);
+			StartActivity (discoverIntent);
+
+			DoDiscovery ();
 
 			this.pairedDevicesAA = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
 			newDevicesAA = new ArrayAdapter<string>(this, Resource.Layout.BluetoothTextView);
@@ -83,6 +61,14 @@ namespace BMN
 			var newListView = FindViewById<ListView> (Resource.Id.NewListView);
 			newListView.Adapter = newDevicesAA;
 			newListView.ItemClick += DeviceListClick;
+
+			var refreshButton = FindViewById<Button> (Resource.Id.refresh);
+			refreshButton.Click += (object sender, EventArgs e) => {
+
+				newDevicesAA.Clear();
+
+				DoDiscovery();
+			};
 
 			var doneButton = FindViewById<Button> (Resource.Id.DoneButton);
 			doneButton.Click += (object sender, EventArgs e) => {
